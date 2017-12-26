@@ -1,0 +1,21 @@
+{% extends "table.html" %}
+{{super()}}}
+{% block content %}
+    {% for file in files %}
+        <tr>
+            {% if file.filetype == None %}
+                <td><a href="{{url_for('index',path=request.path+'/'+file.filename)}}">{{file.filename}}</a></td>
+            {% else %}
+                <td>{{file.filename}}</td>
+            {% endif %}
+            {% if file.filetype == None %}
+                <td>folder</td>
+            {% else %}
+                <td>{{file.filetype}}</td>
+            {% endif %}
+            <td>{{file.filesize}}</td>
+            <td>{{file.filedatemod}}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
