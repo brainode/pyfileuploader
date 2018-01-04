@@ -1,21 +1,34 @@
-{% extends "table.html" %}
-{{super()}}}
-{% block content %}
-    {% for file in files %}
-        <tr>
-            {% if file.filetype == None %}
-                <td><a href="{{url_for('index',path=request.path+'/'+file.filename)}}">{{file.filename}}</a></td>
-            {% else %}
-                <td>{{file.filename}}</td>
-            {% endif %}
-            {% if file.filetype == None %}
-                <td>folder</td>
-            {% else %}
-                <td>{{file.filetype}}</td>
-            {% endif %}
-            <td>{{file.filesize}}</td>
-            <td>{{file.filedatemod}}</td>
-        </tr>
+{% extends "base.html" %}
+
+{% block breadcrumbs %}
+    {% for path_part in paths %}
+            {%- if path_part.num != lenpaths -%}
+                <li><a href="{{path_part.link}}"><h5>{{path_part.name}}</h5></a></li>
+            {%- else -%}
+                <li><span href=""><h5 class="uk-text-muted">{{path_part.name}}</h5></span></li>
+            {%- endif -%}
     {% endfor %}
 {% endblock %}
 
+{% block filebrowser %}
+<table class="uk-table uk-table-hover uk-table-divider">
+  <thead>
+      <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Size</th>
+          <th>Date modified</th>
+      </tr>
+  </thead>
+  <tbody>
+  {% for file in files %}
+      <tr>
+          <td>{{file.name}}</td>
+          <td>{{file.type}}</td>
+          <td>{{file.size}}</td>
+          <td>{{file.datemodified}}</td>
+      </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

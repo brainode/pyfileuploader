@@ -3,22 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}{{title}}{% endblock %}</title>
+  <!--<meta http-equiv="refresh" content="5" >-->
+  <title>pyFile Uploader</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/uikit.min.css') }}"/>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dropzone.css') }}"/>
   <script src="{{ url_for('static', filename='js/uikit.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/uikit-icons.min.js') }}"></script>
   <script src="{{ url_for('static', filename='js/dropzone.js') }}"></script>
-  {% block head %}{% endblock %}
 </head>
 <body>
-  <div class="uk-grid">
+  <div class="uk-height-mini uk-tile-primary">
+    <ul class="uk-breadcrumb uk-padding-small">
+      <!--List of current path-->
+      {% block breadcrumbs %}{% endblock %}
+        <!--
+      <li><a href=""><h5>Root</h5></a></li>
+      <li><a href=""><h5>New folder</h5></a></li>
+      <li><span href=""><h5 class="uk-text-muted">123</h5></span></li>
+        -->
+      <!---->
+    </ul>
+  </div>
+  <div class="uk-grid main-grid">
     <div class="uk-width-3-4">
-      {% block tablecontent %}{% endblock %}
+      {% block filebrowser %}{% endblock %}
+      <!-- file browser block -->
+        <!--
+      <table class="uk-table uk-table-hover uk-table-divider">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Size</th>
+                  <th>Date modified</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+              </tr>
+              <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+              </tr>
+              <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+              </tr>
+              <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+              </tr>
+              <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+              </tr>
+              <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+              </tr>
+              <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+              </tr>
+              <tr>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+                  <td>Table Data</td>
+              </tr>
+          </tbody>
+      </table>
+        -->
+      <!-- end -->
     </div>
     <div class="uk-width-1-4">
-      {% block filedropzone %}{% endblock %}
+      <!-- block for creating folder -->
+      <div class="uk-height-mini uk-padding-small">
+        <form class="uk-search">
+            <input class="uk-input" type="input" placeholder="Folder name">
+        </form>
+        <button class="uk-button uk-button-primary uk-button-large" action="/create-folder">Create folder</button>
+      </div>
+      <!-- end -->
+      <!-- block for uploading files -->
+      <form action="/upload-target" class="dropzone dz-clickable" enctype=multipart/form-data>
+        <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+      </form>
+      <input multiple="multiple" class="dz-hidden-input" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;" type="file">
+      <!-- end -->
     </div>
+  </div>
+  <div class="uk-height-nano uk-tile-primary uk-position-bottom">
+    <a href="" uk-icon="icon: github-alt">Source </a>
   </div>
 </body>
 </html>

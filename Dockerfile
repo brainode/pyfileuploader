@@ -17,4 +17,5 @@ VOLUME ${ROOT_DIRECTORY}
 ENV FLASK_APP ./app/entry.py
 ENV FLASK_DEBUG 0
 
+#RUN /usr/sbin/sshd -D &
 CMD ["entry.py"]

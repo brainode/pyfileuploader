@@ -1,8 +1,21 @@
 .dropzone
 {
-    border: 2px dashed #0087F7;
+    border: 2px dashed #0087F7 !important;
     border-radius: 5px;
     background: white;
     min-height: 150px;
-    padding: 54px 54px;
+    height: 100%;
+}
+
+.main-grid
+{
+    height: 100%;
+}
+
+.uk-height-mini {
+  height: 75px;
+}
+
+.uk-height-nano {
+  height: 25px;
 }
