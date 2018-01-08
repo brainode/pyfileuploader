@@ -34,5 +34,9 @@ class Core:
     def SaveFile(self, path, file, name):
         pass
     def ChangeDir(self, path):
+        path = join(self.rootPath, path)
         if os.path.exists(path):
             self.currientPath = path
+            return True
+        else:
+            return False

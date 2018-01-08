@@ -10,25 +10,27 @@ app = Flask(
 
 PathLink = namedtuple('PathLink', ['num', 'name', 'link'])
 
-#Mock
 cor = core.Core()
-#files = cor.scan_dir()
-#
 
 @app.route("/", defaults={'path': ''},methods=['GET'])
 @app.route("/<path:path>",methods=['GET'])
 def index(path):
-    cor.ChangeDir(path)
-    return render_template("index.html", files=cor.ScanDir(), paths=GetPathParts(), lenpaths=len(GetPathParts()))
+    if cor.ChangeDir(path):
+        return render_template("index.html", files=cor.ScanDir(), paths=GetPathParts(), lenpaths=len(GetPathParts()), path=path)
+    else:
+        return render_template("404.html")
 
 def GetPathParts():
     partpaths = [PathLink(1, 'root', url_for('index'))]
     req = request.path.split('/')
     i = 2
+    curpath = ''
     for path in req[1:]:
-        partpaths.append(PathLink(i, path, url_for('index', path=path)))
+        curpath += '/' + path
+        partpaths.append(PathLink(i, path, url_for('index', path=curpath)))
         i += 1
-    return  partpaths
+    return partpaths
+
 
 
 if __name__ == '__main__':
