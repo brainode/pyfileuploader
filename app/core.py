@@ -21,7 +21,7 @@ class Core:
         files = []
         with os.scandir(self.currientPath) as it:
             for entry in it:
-                if entry.is_dir():
+                if entry.is_dir() or entry.is_symlink():
                     files.append(Node(
                         entry.name,
                         'folder',
