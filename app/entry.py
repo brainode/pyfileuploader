@@ -20,6 +20,19 @@ def index(path):
     else:
         return render_template("404.html")
 
+
+@app.route("/<path:path>",methods=['POST'])
+def CreateFolder(path):
+    errors = []
+    print(request.form)
+    try:
+        folderName = request.form['foldername']
+        cor.CreateFolder(path,folderName)
+    except:
+        #Show error message
+        pass
+    return index(path)
+
 def GetPathParts():
     partpaths = [PathLink(1, 'root', url_for('index'))]
     req = request.path.split('/')

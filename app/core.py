@@ -21,14 +21,26 @@ class Core:
         with os.scandir(self.currientPath) as it:
             for entry in it:
                 if entry.is_dir():
-                    files.append(Node(entry.name,'folder',0,entry.stat().st_mtime, 0))
+                    files.append(Node(
+                        entry.name,
+                        'folder',
+                        0,
+                        datetime.fromtimestamp(entry.stat().st_mtime),
+                        0)
+                    )
                 else:
-                    files.append(Node(entry.name, str(mimetypes.guess_type(entry.path)[0]), entry.stat().st_size, entry.stat().st_mtime, len(str(mimetypes.guess_type(entry.path)[0]))))
+                    files.append(Node(
+                        entry.name,
+                        str(mimetypes.guess_type(entry.path)[0]),
+                        entry.stat().st_size,
+                        datetime.fromtimestamp(entry.stat().st_mtime),
+                        len(str(mimetypes.guess_type(entry.path)[0]))
+                    ))
         files.sort(key=attrgetter('weight'))
         return files
     def CreateFolder(self, path, name):
         try:
-            os.mkdir(join(path,name))
+            os.mkdir(join(join(self.rootPath,path),name))
         except FileExistsError:
             pass
     def SaveFile(self, path, file, name):
