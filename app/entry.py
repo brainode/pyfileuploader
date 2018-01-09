@@ -1,6 +1,5 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template
-from werkzeug.utils import secure_filename
 from app import core
 from collections import namedtuple
 
@@ -22,17 +21,38 @@ def index(path):
 
 
 @app.route("/<path:path>",methods=['POST'])
+def Action(path):
+    try:
+        action = request.args['action']
+        if action == 'CreateFolder':
+            CreateFolder(path)
+        elif action == 'Upload':
+            UploadFiles(path)
+    except Exception:
+        pass
+    return index(path)
+
+
 def CreateFolder(path):
-    errors = []
-    print(request.form)
     try:
         folderName = request.form['foldername']
-        cor.CreateFolder(path,folderName)
+        cor.CreateFolder(folderName)
     except:
         #Show error message
         pass
     return index(path)
 
+
+def UploadFiles(path):
+    try:
+        file = request.files['file']
+        cor.SaveFile(file)
+    except:
+        #Show error message
+        pass
+    return index(path)
+
+#Bread crumbs generating
 def GetPathParts():
     partpaths = [PathLink(1, 'root', url_for('index'))]
     req = request.path.split('/')

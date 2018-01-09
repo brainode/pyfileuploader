@@ -1,8 +1,9 @@
 import os
-from os import listdir
 from os.path import isfile, join, dirname, abspath, getmtime, getsize, isdir
 import mimetypes
 from datetime import datetime
+
+from werkzeug.utils import secure_filename
 
 from collections import namedtuple
 
@@ -38,13 +39,16 @@ class Core:
                     ))
         files.sort(key=attrgetter('weight'))
         return files
-    def CreateFolder(self, path, name):
+    def CreateFolder(self, name):
         try:
-            os.mkdir(join(join(self.rootPath,path),name))
+            os.mkdir(join(self.currientPath,name))
         except FileExistsError:
             pass
-    def SaveFile(self, path, file, name):
-        pass
+        except Exception:
+            pass
+    def SaveFile(self, file):
+        filename = secure_filename(file.filename)
+        file.save(join(self.currientPath, filename))
     def ChangeDir(self, path):
         path = join(self.rootPath, path)
         if os.path.exists(path):
