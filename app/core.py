@@ -22,6 +22,8 @@ class Core:
         with os.scandir(self.currientPath) as it:
             for entry in it:
                 if entry.is_dir():
+                    print(entry)
+                    print(entry.stat())
                     files.append(Node(
                         entry.name,
                         'folder',
@@ -29,15 +31,8 @@ class Core:
                         datetime.fromtimestamp(entry.stat().st_mtime),
                         0)
                     )
-                elif entry.is_symlink():
-                    files.append(Node(
-                        entry.name,
-                        'folder',
-                        0,
-                        0,
-                        0)
-                    )
                 else:
+                    print(entry)
                     files.append(Node(
                         entry.name,
                         str(mimetypes.guess_type(entry.path)[0]),
