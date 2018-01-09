@@ -19,7 +19,7 @@ def index(path):
     else:
         return render_template("404.html")
 
-
+@app.route("/", defaults={'path': ''},methods=['POST'])
 @app.route("/<path:path>",methods=['POST'])
 def Action(path):
     try:

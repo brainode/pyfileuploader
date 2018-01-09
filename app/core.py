@@ -1,14 +1,11 @@
 import os
-from os.path import isfile, join, dirname, abspath, getmtime, getsize, isdir
+from os.path import join
 import mimetypes
 from datetime import datetime
-
 from werkzeug.utils import secure_filename
-
 from collections import namedtuple
-
-from operator import itemgetter, attrgetter
-
+from operator import attrgetter
+from transliterate import translit,get_available_language_codes
 
 Node = namedtuple('Node', ['name', 'type', 'size', 'datemodified', 'weight'])
 
@@ -22,8 +19,6 @@ class Core:
         with os.scandir(self.currientPath) as it:
             for entry in it:
                 if entry.is_dir():
-                    print(entry)
-                    print(entry.stat())
                     files.append(Node(
                         entry.name,
                         'folder',
@@ -32,7 +27,6 @@ class Core:
                         0)
                     )
                 else:
-                    print(entry)
                     files.append(Node(
                         entry.name,
                         str(mimetypes.guess_type(entry.path)[0]),
@@ -50,7 +44,8 @@ class Core:
         except Exception:
             pass
     def SaveFile(self, file):
-        filename = secure_filename(file.filename)
+        filename = translit(file.filename, 'ru', reversed=True)
+        filename = secure_filename(filename)
         file.save(join(self.currientPath, filename))
     def ChangeDir(self, path):
         path = join(self.rootPath, path)
