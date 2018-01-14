@@ -7,6 +7,8 @@ app = Flask(
     __name__
 )
 
+app.config['MAX_CONTENT_LENGTH'] = 5120 * 1024 * 1024
+
 PathLink = namedtuple('PathLink', ['num', 'name', 'link'])
 
 cor = core.Core()
