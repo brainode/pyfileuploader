@@ -168,7 +168,7 @@ var Dropzone = function (_Emitter) {
         /**
          * The timeout for the XHR requests in milliseconds (since `v4.4.0`).
          */
-        timeout: 30000,
+        timeout: 3000000,
 
         /**
          * How many file uploads to process in parallel (See the
@@ -225,7 +225,7 @@ var Dropzone = function (_Emitter) {
          * the event `maxfilesexceeded` will be called. The dropzone element gets the
          * class `dz-max-files-reached` accordingly so you can provide visual feedback.
          */
-        maxFilesize: 256,
+        maxFilesize: 5120,
 
         /**
          * The name of the file param that gets transferred.
