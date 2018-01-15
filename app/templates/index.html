@@ -29,7 +29,7 @@
           <td><a href="{{ url_for('index', path=path+'/'+file.name) }}">{{file.name}}</a></td>
        {%- endif -%}
           <td>{{file.type}}</td>
-          <td>{{file.size}}</td>
+          <td>{{file.size}} mb</td>
           <td>{{file.datemodified}}</td>
       </tr>
   {% endfor %}

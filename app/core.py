@@ -30,7 +30,7 @@ class Core:
                     files.append(Node(
                         entry.name,
                         str(mimetypes.guess_type(entry.path)[0]),
-                        entry.stat().st_size,
+                        round(entry.stat().st_size/1000000, 2),
                         datetime.fromtimestamp(entry.stat().st_mtime),
                         len(str(mimetypes.guess_type(entry.path)[0]))
                     ))
