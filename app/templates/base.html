@@ -28,10 +28,12 @@
     </div>
     <div class="uk-width-1-4">
       <!-- block for creating folder -->
-      <div class="uk-height-mini uk-padding-small">
-        <form class="uk-search" action='{{ url_for("Action", path=path, action='CreateFolder') }}' method='POST' role="form">
+      <div class="uk-margin">
+        <form action='{{ url_for("Action", path=path, action='CreateFolder') }}' method='POST' role="form">
             <input name="foldername" class="uk-input" type="text" placeholder="Folder name">
-            <button class="uk-button uk-button-primary uk-button-large" type="submit">Create folder</button>
+            <div class="uk-text-center">
+                <button class="uk-button uk-button-primary" type="submit">Create folder</button>
+            </div>
         </form>
       </div>
       <!-- end -->
@@ -43,8 +45,8 @@
       <!-- end -->
     </div>
   </div>
-  <div class="uk-height-nano uk-tile-primary uk-position-bottom">
-    <a href="" uk-icon="icon: github-alt">Source </a>
+  <div class="uk-card-primary uk-card-footer uk-margin-auto">
+        <a href="" uk-icon="icon: github-alt">Source </a>
   </div>
 </body>
 </html>
