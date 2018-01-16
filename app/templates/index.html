@@ -21,7 +21,7 @@
       </tr>
   </thead>
   <tbody>
-  {% for file in files %}
+  {% for file in files[paginator.itemFrom:paginator.itemTo] %}
       <tr>
        {%- if file.type != 'folder' -%}
           <td>{{file.name}}</td>
@@ -35,4 +35,19 @@
   {% endfor %}
   </tbody>
 </table>
+{#    {%- set filecounter = len(files)//12 -%}#}
+    <div class="uk-align-center">
+        <ul class="uk-pagination uk-flex-center" uk-margin>
+         {%- for li in paginator.ul -%}
+             {%- if li.showText == 'html_PagPrev' -%}
+                 <li><a class="{{ li.cssClass }}" href="{{ li.link }}"><span uk-pagination-previous></span></a></li>
+             {%- elif li.showText == 'html_PagNext' -%}
+                 <li><a class="{{ li.cssClass }}" href="{{ li.link }}"><span uk-pagination-next></span></a></li>
+             {%- else -%}
+                 <li class="{{ li.cssClass }}"><a href="{{ li.link }}">{{ li.showText }}</a></li>
+             {%- endif -%}
+        {%- endfor -%}
+        </ul>
+    </div>
 {% endblock %}
+
