@@ -140,15 +140,3 @@ def GetPathParts():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
-
-
-# @app.route("/<path:path>",methods=['POST'])
-# def upload(path):
-#     f = request.files['file']
-#     cor.upload_file(request.files['file'],secure_filename(f.filename))
-#     print("Path is: " + path)
-#     return index(path)
-#     #return index(request.path)
-#     #return render_template("index.html", title='Py File Uploader', files=cor.scan_dir(''))
-#     #return render_template("index.html", title='Py File Uploader', files=cor.scan_dir(request.path))
-#

@@ -14,3 +14,10 @@
 .uk-height-mini {
   height: 75px;
 }
+
+.footer
+{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
