@@ -81,14 +81,14 @@ pag = Paginator()
 @app.route("/", defaults={'path': ''},methods=['GET'])
 @app.route("/<path:path>",methods=['GET'])
 def index(path):
-    files = cor.ScanDir()
-    freeDiskPerc = cor.DiskUsage()
-    try:
-        page = request.args['page']
-    except Exception:
-        page = 0
-    pag.initPaginator(page, len(files))
     if cor.ChangeDir(path):
+        files = cor.ScanDir()
+        freeDiskPerc = cor.DiskUsage()
+        try:
+            page = request.args['page']
+        except Exception:
+            page = 0
+        pag.initPaginator(page, len(files))
         return render_template("index.html", files=files, paths=GetPathParts(), lenpaths=len(GetPathParts()), path=path, paginator=pag, freeSpacePerc=freeDiskPerc)
     else:
         return render_template("404.html")
