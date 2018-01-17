@@ -5,10 +5,11 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 from collections import namedtuple
 from operator import attrgetter
-from transliterate import translit,get_available_language_codes
+from transliterate import translit
 
 Node = namedtuple('Node', ['name', 'type', 'size', 'datemodified', 'weight'])
 
+DiskSpace = namedtuple('DiskSpace', ['free', 'used', 'total', 'style'])
 
 class Core:
     def __init__(self):
@@ -54,3 +55,23 @@ class Core:
             return True
         else:
             return False
+    def DiskUsage(self):
+        diskSt = os.statvfs(self.currientPath)
+        free = round(diskSt.f_bavail * diskSt.f_frsize / (1024 ** 2), 2)
+        total = round(diskSt.f_blocks * diskSt.f_frsize / (1024 ** 2), 2)
+        used = ((diskSt.f_blocks - diskSt.f_bfree) * diskSt.f_frsize) / (1024 ** 2)
+        if used/total*100 > 90:
+            style = 'uk-progress-danger'
+        elif used/total*100 > 70:
+            style = 'uk-progress-warning'
+        else:
+            style = 'uk-progress-success'
+        return DiskSpace(free, used, total, style)
+
+# def disk_usage(path):
+#
+#     st = os.statvfs(path)
+#     free = st.f_bavail * st.f_frsize
+#     total = st.f_blocks * st.f_frsize
+#     used = (st.f_blocks - st.f_bfree) * st.f_frsize
+#     return _ntuple_diskusage(total, used, free)

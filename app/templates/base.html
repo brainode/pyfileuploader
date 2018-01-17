@@ -13,12 +13,20 @@
   <script src="{{ url_for('static', filename='js/dropzone.js') }}"></script>
 </head>
 <body>
-  <div class="uk-height-mini uk-tile-primary">
+  <div class="uk-tile-primary">
     <ul class="uk-breadcrumb uk-padding-small">
       <!--List of current path-->
       {% block breadcrumbs %}{% endblock %}
       <!-- -->
     </ul>
+    <div class="uk-grid">
+        <div class="uk-width-3-4">
+            <progress class="uk-progress {{ freeSpacePerc.style }}" value="{{freeSpacePerc.used / freeSpacePerc.total * 100}}" max="100"></progress>
+        </div>
+        <div  class="uk-width-1-4">
+            {{ freeSpacePerc.free }} Mb FREE / {{ freeSpacePerc.total }} Mb TOTAL
+        </div>
+    </div>
   </div>
   <div class="uk-grid main-grid">
     <div class="uk-width-3-4">
