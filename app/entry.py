@@ -23,12 +23,24 @@ class Paginator:
         self.itemTo = self.itemOnPage
         self.maxItems = 0
         self.ul = []
-    def hasPrev(self):
-        return self.page > 1
-    def hasNext(self):
-        return self.page < self.getPagesCount() - 1
+    def hasPrev(self, page):
+        return page > 0
+    def hasNext(self, page):
+        return page < self.getPagesCount() - 1
     def getPagesCount(self):
         return int(ceil(self.maxItems/self.itemOnPage))
+    def appendDots(self):
+        self.appendPageLink('#', '...', 'uk-disabled')
+    def appendPageLink(self, linkPage, text, cssClass):
+        self.ul.append(
+            liItem(
+                url_for('index', path=request.path, page=linkPage),
+                text,
+                cssClass
+            )
+        )
+    def isEdgePage(self, page):
+        return page == 0 or page == self.getPagesCount() - 1
     def initPaginator(self, page, itemsCount):
         self.page = int(page)
         self.maxItems = int(itemsCount)
@@ -37,52 +49,29 @@ class Paginator:
         self.itemFrom = self.page * self.itemOnPage
         self.itemTo = self.itemFrom + self.itemOnPage
 
-        prevPage = self.page - 1 if self.hasPrev() else 0
-        nextPage = self.page + 1 if self.hasNext() else 0
+        prevPage = self.page - 1 if self.hasPrev(self.page) else 0
+        nextPage = self.page + 1 if self.hasNext(self.page) else self.page
 
         pages = self.getPagesCount()
         #Append Prev item.Always exist
-        self.ul.append(liItem(
-                        url_for('index', path=request.path, page=prevPage),
-                        'html_PagPrev',
-                        'uk-disabled' if not self.hasPrev() else ''
-                    )
-        )
-        # Append first item.Always exist
-        self.ul.append(liItem(
-                            url_for('index', path=request.path, page=0),
-                            '1',
-                            'uk-active' if self.page == 0 else ''
-                        )
-        )
-        if self.getPagesCount() > 5:
-            self.ul.append(liItem(
-                            '#',
-                            '...',
-                            'uk-disabled'
-                        )
-            )
-        for pageIndex in range(1, pages):
-            self.ul.append(liItem(
-                            url_for('index', path=request.path, page=pageIndex),
-                            pageIndex+1,
-                            'uk-active' if self.page == pageIndex else ''
-                        )
-            )
-            if self.getPagesCount() > 5 and pageIndex == pages-2:
-                self.ul.append(liItem(
-                    '#',
-                    '...',
-                    'uk-disabled'
-                )
-            )
-        # Append next item.Always exist
-        self.ul.append(liItem(
-                            url_for('index', path=request.path, page=nextPage),
-                            'html_PagNext',
-                            'uk-disabled' if not self.hasNext() else ''
-                        )
-        )
+        self.appendPageLink(prevPage, 'html_PagPrev', 'uk-disabled' if not self.hasPrev(self.page) else '')
+        isPlacedLeftDots = False
+        isPlacedRightDots = False
+        for pageIndex in range(pages):
+            if self.page + 2 <= pageIndex and not isPlacedRightDots:
+                self.appendDots()
+                isPlacedRightDots = True
+            if self.isEdgePage(pageIndex):
+                self.appendPageLink(pageIndex, str(pageIndex + 1), 'uk-active' if self.page == pageIndex else '')
+            if self.page - 2 >= pageIndex and not isPlacedLeftDots:
+                self.appendDots()
+                isPlacedLeftDots = True
+            elif self.page - 2 < pageIndex and self.page + 2 > pageIndex and not self.isEdgePage(pageIndex):
+                self.appendPageLink(pageIndex, str(pageIndex + 1), 'uk-active' if self.page == pageIndex else '')
+            else:
+                continue
+        # Append Next item.Always exist
+        self.appendPageLink(nextPage, 'html_PagNext', 'uk-disabled' if not self.hasNext(self.page) else '')
 ###end paginator block
 
 
